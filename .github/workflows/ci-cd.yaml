@@ -64,11 +64,16 @@ jobs:
         # Maven을 사용하여 애플리케이션 실행
         # main 클래스를 Application으로 가정
         mvn exec:java -Dexec.mainClass="Application"
+      
+    - name: 현재 날짜 시간 가져오기
+      id: date
+      run: echo "datetime=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+    
         
     - name: 변경사항 커밋 및 푸시
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: "자동 실행 결과 업데이트: ${{ github.workflow }} at $(date +'%Y-%m-%d %H:%M:%S')"
+        commit_message: "자동 실행 결과 업데이트: ${{ github.workflow }} at ${{ steps.date.outputs.datetime }}"
         commit_user_name: ${{ github.repository_owner }}
         commit_user_email: ${{ github.repository_owner }}@users.noreply.github.com
         commit_author: "${{ github.repository_owner }} <${{ github.repository_owner }}@users.noreply.github.com>"
